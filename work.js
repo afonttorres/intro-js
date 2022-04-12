@@ -145,6 +145,10 @@ titleInput.defaultValue = 'Write something here!'
 const titleButton = document.getElementById('titleButton');
 const title = document.getElementsByClassName('main_title')[0];
 
+titleInput.onfocus = ()=>{
+    titleInput.value ='';
+}
+
 titleButton.onclick = () => {
     let inputValue = titleInput.value;
     console.log(inputValue)
@@ -164,6 +168,7 @@ titleButton.onclick = () => {
         changeStyle(titleInput, ['', 'orange'])
     }
 }
+
 
 //  5. Desarrollar una función que escriba en el documento 
 //  HTML cada item de una lista de la compra.
