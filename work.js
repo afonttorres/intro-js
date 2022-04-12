@@ -92,21 +92,27 @@ let firstWork = document.getElementById('firstWork');
 firstWork.style.cursor = 'pointer';
 firstWork.onclick = () => {
     const container = document.getElementById('firstWork');
-    if(container.children.length <1){
-        printNewElement('h1', 'exercice1', 'firstWork', ['monospace', 'coral', 'center', "", "", "", "", "", ""], "Hi, I'm elfo");
-    }else if(container.children.length <= 1){
-        printNewElement('h1', 'exercice1', 'firstWork', ['monospace', 'blue', 'center', "", "", "", "", "", ""], "Too many clicks");
+    if (container.children.length < 1) {
+        printNewElement('h1', 'exercice1', 'firstWork',
+            ['monospace', 'coral', 'center', "", "", "", "", "", ""],
+            "Hi, I'm elfo");
+    } else if (container.children.length <= 1) {
+        printNewElement('h1', 'exercice1', 'firstWork',
+            ['monospace', 'blue', 'center', "", "", "", "", "", ""],
+            "Too many clicks");
         //container.innerHTML="";
-    }else {
-        container.innerHTML="";
-    }  
+    } else {
+        container.innerHTML = "";
+    }
 }
 
 //  3. Teniendo un cuadrado de color rojo en el documento de HTML:
 //  Desarrollar una función que, al hacer click en el mismo, 
 //  éste se transforme en una círculo de color verde
 
-printNewElement('div', 'exercice2', 'secondWork', ['', '', '', '50%', '50%', 'red', '2px solid red', 'none', 'pointer'], '');
+printNewElement('div', 'exercice2', 'secondWork',
+    ['', '', '', '50%', '50%', 'red', '2px solid red', 'none', 'pointer']
+    , '');
 let square = document.getElementById('exercice2');
 let clicked = false;
 
@@ -114,11 +120,15 @@ function changeDisplay(height, color, radius) {
     if (clicked === false) {
         clicked = true;
         console.log(clicked)
-        changeStyle(square, ['', '', '', '50%', `${height}%`, `${color}`, `2px solid ${color}`, `${radius}%`, 'pointer']);
+        changeStyle(square,
+            ['', '', '', '50%', `${height}%`, `${color}`, `2px solid ${color}`, `${radius}%`, 'pointer']
+        );
 
     } else {
         clicked = false;
-        changeStyle(square, ['', '', '', '50%', '50%', 'red', '2px solid red', '0', 'pointer']);
+        changeStyle(square,
+            ['', '', '', '50%', '50%', 'red', '2px solid red', '0', 'pointer']
+        );
     }
 }
 
@@ -159,11 +169,96 @@ titleButton.onclick = () => {
 //  HTML cada item de una lista de la compra.
 
 let shoppingList = ['iogurt', 'maduixes', 'nous', 'xocolata', 'alvocat', 'remoltxa'];
-printNewElement('p','shoppingList', 'fourthWork', ['monospace', 'indianred', 'center', '', '', '', '', '', '', '', 'x-small'], `shopingList = [${shoppingList}]`);
-printNewElement('div','separator', 'fourthWork', ['', '', 'center', '50%', '1%', 'indianred', '', '', '', '5%'],'');
+printNewElement('p', 'shoppingList', 'fourthWork',
+    ['monospace', 'indianred', 'center', '', '', '', '', '', '', '', 'x-small'],
+    `shopingList = [${shoppingList}]`);
+printNewElement('div', 'separator', 'fourthWork',
+    ['', '', 'center', '50%', '1%', 'indianred', '', '', '', '5%']
+    , '');
 
 
 for (let i = 0; i < shoppingList.length; i++) {
     let item = shoppingList[i];
-    printNewElement('p', `${item}`, 'fourthWork', ['monospace', 'green', '', '', '', '', '', '', '', 'small','x-small'], `${item}`);
+    printNewElement('p', `${item}`, 'fourthWork',
+        ['monospace', 'green', '', '', '', '', '', '', '', 'small', 'x-small']
+        , `${item}`);
 }
+
+// 6 . Desarrollar una función que dibuje una 'Card' 
+// de una película en el documento usando un objeto javascript como datos.
+const cardContainer = document.getElementById('fifthWork')
+
+class card {
+    constructor(width, height, backgroundColor, imgUrl, backgroundPosition, backgroundRepeat, backgroundSize, display, flexDirection, justifyContent,position) {
+        this.width = `${width}`;
+        this.height = `${height}`;
+        this.backgroundColor = `${backgroundColor}`;
+        this.backgroundImage = `url(${imgUrl}) `;
+        this.backgroundPosition = `${backgroundPosition}`;
+        this.backgroundRepeat = `${backgroundRepeat}`;
+        this.backgroundSize = `${backgroundSize}`;
+        this.display = `${display}`;
+        this.flexDirection = `${flexDirection}`;
+        this.justifyContent = `${justifyContent}`,
+        this.position = `${position}`
+    }
+}
+
+class img {
+    constructor( width, margin, position, transition, top, left) {
+        this.width = `${width}`,
+        this.margin = `${margin}`,
+        this.position = `${position}`,
+        this.transition = `${transition}`,
+        this.top = `${top}`,
+        this.left = `${left}`
+        // this.src = `${}`,
+        // this.src = `${}`,
+    }
+}
+
+function setStyle(element, arrStyle) {
+    for (let i = 0; i < Object.keys(arrStyle).length; i++) {
+        let key = Object.keys(arrStyle)[i];
+        element.style[key] = arrStyle[key];
+    }
+}
+
+
+function printCard(cardStyles, imgStyles) {
+    let mainCard = document.createElement('div');
+    let cardImg = document.createElement('img');
+    cardImg.id = 'cardImg';
+
+    let cardStyle = new card(...cardStyles);
+    let imgStyle = new img(...imgStyles);
+
+    setStyle(mainCard, cardStyle);
+    setStyle(cardImg, imgStyle);
+    cardImg.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRjtDwhQOjkSoWUX47Ppn_0NnZ0xiaG7qLNabGcxk8kRerjj0v'
+
+    mainCard.appendChild(cardImg);
+    cardContainer.appendChild(mainCard);
+}
+
+let cardPams = ['100%', '100%', 'indianred', '',
+    'top', 'no-repeat', 'contain', 'flex', 'row', 'center', 'relative'];
+
+let imgPams = ['85%', '0 auto','absolute', 'all 2s','','']
+
+printCard(cardPams, imgPams);
+
+cardContainer.addEventListener('mouseover', () => {
+    imgPams = ['50%', '0 auto','absolute', 'all 2s','5%','5%'];
+    let cardImg = document.getElementById('cardImg');
+    
+    let imgStyle = new img(...imgPams);
+    setStyle(cardImg,imgStyle)
+})
+cardContainer.addEventListener('mouseout', () => {
+    imgPams = ['85%', '0 auto','absolute', 'all 2s','2%','8%']
+    let cardImg = document.getElementById('cardImg');
+    
+    let imgStyle = new img(...imgPams);
+    setStyle(cardImg,imgStyle)
+})
