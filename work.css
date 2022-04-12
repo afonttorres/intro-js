@@ -54,7 +54,7 @@ html, body{
 h3{
     color: orange;
     font-family: monospace;
-    height: 20%;
+    /* height: 20%; */
 }
 .title_input{
     border: 1px solid orangered;

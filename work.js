@@ -91,7 +91,15 @@ function printNewElement(elementType, name, whereToAppend, styles, text) {
 let firstWork = document.getElementById('firstWork');
 firstWork.style.cursor = 'pointer';
 firstWork.onclick = () => {
-    printNewElement('h1', 'exercice1', 'firstWork', ['monospace', 'coral', 'center', "", "", "", "", "", ""], "Hi, I'm elfo");
+    const container = document.getElementById('firstWork');
+    if(container.children.length <1){
+        printNewElement('h1', 'exercice1', 'firstWork', ['monospace', 'coral', 'center', "", "", "", "", "", ""], "Hi, I'm elfo");
+    }else if(container.children.length <= 1){
+        printNewElement('h1', 'exercice1', 'firstWork', ['monospace', 'blue', 'center', "", "", "", "", "", ""], "Too many clicks");
+        //container.innerHTML="";
+    }else {
+        container.innerHTML="";
+    }  
 }
 
 //  3. Teniendo un cuadrado de color rojo en el documento de HTML:
