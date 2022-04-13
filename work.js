@@ -29,6 +29,20 @@ if (listConvertionResult !== []) { console.log('Ex 2: Good job') } else { consol
 // 1. Desarrollar una función que escriba en la consola del navegador cada item de una 
 //    lista de la compra.
 
+let listaCompra = [];
+function catchValue() {
+    let value = prompt("Introduzca el primer producto de la lista de la compra")
+    listaCompra.push(value);
+
+    if (listaCompra.length > 0) {
+        listaCompra.forEach(item => {
+            console.log(item);
+        })
+    }
+}
+
+//setInterval(catchValue, 3000);
+
 const listCompra = ['iogurt', 'maduixes', 'nous', 'xocolata', 'alvocat', 'remoltxa'];
 
 function printList(array) {
@@ -145,8 +159,8 @@ titleInput.defaultValue = 'Write something here!'
 const titleButton = document.getElementById('titleButton');
 const title = document.getElementsByClassName('main_title')[0];
 
-titleInput.onfocus = ()=>{
-    titleInput.value ='';
+titleInput.onfocus = () => {
+    titleInput.value = '';
 }
 
 titleButton.onclick = () => {
@@ -194,7 +208,9 @@ for (let i = 0; i < shoppingList.length; i++) {
 const cardContainer = document.getElementById('fifthWork')
 
 class card {
-    constructor(width, height, backgroundColor, imgUrl, backgroundPosition, backgroundRepeat, backgroundSize, display, flexDirection, justifyContent,position) {
+    constructor(width, height, backgroundColor, imgUrl, backgroundPosition,
+        backgroundRepeat, backgroundSize, display, flexDirection,
+        justifyContent, position, border, alignItems, borderRadius, boxShadow, transition) {
         this.width = `${width}`;
         this.height = `${height}`;
         this.backgroundColor = `${backgroundColor}`;
@@ -205,19 +221,24 @@ class card {
         this.display = `${display}`;
         this.flexDirection = `${flexDirection}`;
         this.justifyContent = `${justifyContent}`,
-        this.position = `${position}`
+            this.position = `${position}`,
+            this.border = `${border}`,
+            this.alignItems = `${alignItems}`,
+            this.borderRadius = `${borderRadius}`,
+            this.boxShadow = `${boxShadow}`,
+            this.transition = `${transition}`
     }
 }
 
 class img {
-    constructor( width, margin, position, transition, top, left) {
+    constructor(width, margin, position, transition, top, left, maxWidth) {
         this.width = `${width}`,
-        this.margin = `${margin}`,
-        this.position = `${position}`,
-        this.transition = `${transition}`,
-        this.top = `${top}`,
-        this.left = `${left}`
-        // this.src = `${}`,
+            this.margin = `${margin}`,
+            this.position = `${position}`,
+            this.transition = `${transition}`,
+            this.top = `${top}`,
+            this.left = `${left}`
+        this.maxWidth = `${maxWidth}`
         // this.src = `${}`,
     }
 }
@@ -232,6 +253,7 @@ function setStyle(element, arrStyle) {
 
 function printCard(cardStyles, imgStyles) {
     let mainCard = document.createElement('div');
+    mainCard.id = 'mainCard';
     let cardImg = document.createElement('img');
     cardImg.id = 'cardImg';
 
@@ -242,28 +264,64 @@ function printCard(cardStyles, imgStyles) {
     setStyle(cardImg, imgStyle);
     cardImg.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRjtDwhQOjkSoWUX47Ppn_0NnZ0xiaG7qLNabGcxk8kRerjj0v'
 
+    let cardInfo = document.createElement('div');
+    cardInfo.id = 'cardInfo';
+
+    // Protagonizada por:Abbi Jacobson,Eric André,Nat Faxon
+    // Creada por:Matt Groening
+
+    let infos = [`(Des)encanto`, `2018`, ' Animación para adultos', '4 temporadas',
+        `El deber llama a Bean, pero ella solo piensa en beber. La rebelde princesa enfurece al rey y siembra el caos con sus amigos, un demonio y un elfo.`]
+
+    infos.forEach(element => {
+        let info = document.createElement('p');
+        info.innerText = element;
+        info.style.paddingBottom = '3%';
+        if(element == infos[0]){info.style.fontWeight = 'bolder'};
+        cardInfo.appendChild(info);
+        
+    })
+    cardInfo.classList.add('cardInfo');
+    mainCard.append(cardInfo);
     mainCard.appendChild(cardImg);
     cardContainer.appendChild(mainCard);
 }
 
-let cardPams = ['100%', '100%', 'indianred', '',
-    'top', 'no-repeat', 'contain', 'flex', 'row', 'center', 'relative'];
+//Parametres d'estil per la imatge i la card de default
+let cardPams = ['95%', '95%', 'transparent', '',
+    'top', 'no-repeat', 'contain', 'flex', 'row',
+    'center', 'relative', '1px solid white',
+    'center', ".25rem", "none", 'border 1s, box-shadow 1s'];
 
-let imgPams = ['85%', '0 auto','absolute', 'all 2s','','']
+let imgPams = ['85%', '0 auto', 'relative', 'all 1s', '', '', '7.5vw']
 
 printCard(cardPams, imgPams);
 
-cardContainer.addEventListener('mouseover', () => {
-    imgPams = ['50%', '0 auto','absolute', 'all 2s','5%','5%'];
+//mirar quins canvien de lun a laltre hi passar´ho com argument
+function changeOnInteraction(imgWidth, cardBorder, cardShadow, infoColor) {
+    imgPams = [`${imgWidth}`, '0 auto', 'relative', 'all 1s', '', '', '7.5vw'];
+    cardPams = ['95%', '95%', 'transparent', '',
+        'top', 'no-repeat', 'contain', 'flex', 'row',
+        'center', 'relative', `${cardBorder}`,
+        'center', ".25rem", `${cardShadow}`, 'border 1s, box-shadow 1s'];
+
     let cardImg = document.getElementById('cardImg');
-    
+    let mainCard = document.getElementById('mainCard');
+    let cardInfo = document.getElementById('cardInfo');
+
     let imgStyle = new img(...imgPams);
-    setStyle(cardImg,imgStyle)
+    setStyle(cardImg, imgStyle);
+
+    let cardStyle = new card(...cardPams);
+    setStyle(mainCard, cardStyle);
+
+    cardInfo.style.color = `${infoColor}`
+}
+
+cardContainer.addEventListener('mouseover', () => {
+    changeOnInteraction('0', '1px solid indianred', '1px 1px orange', 'indianred');
 })
 cardContainer.addEventListener('mouseout', () => {
-    imgPams = ['85%', '0 auto','absolute', 'all 2s','2%','8%']
-    let cardImg = document.getElementById('cardImg');
-    
-    let imgStyle = new img(...imgPams);
-    setStyle(cardImg,imgStyle)
+    changeOnInteraction('85%', '1px solid white', 'none', 'white')
 })
+
